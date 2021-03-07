@@ -11,7 +11,9 @@
       google.charts.setOnLoadCallback(drawSheetName);
 
 function drawSheetName() {
-  var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/15l3ZK45hv2ByOfkUiAKoKp-Z9a1u1-Q_rsLS7SqC51E/edit#gid=0');
+  //var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/15l3ZK45hv2ByOfkUiAKoKp-Z9a1u1-Q_rsLS7SqC51E/edit#gid=0');
+  var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
+  query.setQuery('select C, sum(F) group by C');
   query.send(handleQueryResponse);
 }
 
