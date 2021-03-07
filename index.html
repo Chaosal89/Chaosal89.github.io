@@ -27,13 +27,13 @@
 
         var data = response.getDataTable();
         var chart = new google.visualization.ColumnChart(document.getElementById('Duration_chart_div'));
-        chart.draw(data, { height: 400 });
+        chart.draw(data, { width: 600, height: 400 });
       }
 
       //draw the average output chart
       function drawOutputChart() {
         var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
-        query.setQuery('select C, Q');
+        query.setQuery('select C, sum(U) group by C');
         query.send(handleQueryResponseOutputChart);
       }
 
@@ -45,7 +45,7 @@
 
         var data = response.getDataTable();
         var chart = new google.visualization.ColumnChart(document.getElementById('Output_chart_div'));
-        chart.draw(data, { height: 400 });
+        chart.draw(data, { width: 600, height: 400 });
     }
 
     </script>
@@ -53,7 +53,7 @@
 
   <body>
     <!--Table and divs that hold the pie charts-->
-   <table class="columns">
+   <table class="rows">
      <tr>
        <td><div id="Duration_chart_div" style="border: 1px solid #ccc"></div></td>
        <td><div id="Output_chart_div" style="border: 1px solid #ccc"></div></td>
