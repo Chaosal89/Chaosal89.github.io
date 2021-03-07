@@ -26,8 +26,9 @@
         }
 
         var data = response.getDataTable();
+        var options = {title:'Duration by day', width:600, height:400};
         var chart = new google.visualization.LineChart(document.getElementById('Duration_chart_div'));
-        chart.draw(data, { width: 600, height: 400 });
+        chart.draw(data, options);
       }
 
       //draw the average output chart
@@ -44,8 +45,9 @@
         }
 
         var data = response.getDataTable();
+        var options = {title:'Total output by day', width:600, height:400};
         var chart = new google.visualization.LineChart(document.getElementById('Output_chart_div'));
-        chart.draw(data, { width: 600, height: 400 });
+        chart.draw(data, options);
     }
 
     //draw the average output chart
@@ -62,8 +64,9 @@
       }
 
       var data = response.getDataTable();
+      var options = {title:'Average output by day', width:600, height:400};
       var chart = new google.visualization.LineChart(document.getElementById('Day_Avg_Output_chart_div'));
-      chart.draw(data, { width: 600, height: 400 });
+      chart.draw(data, options);
   }
 
     </script>
