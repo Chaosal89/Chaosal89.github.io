@@ -53,7 +53,8 @@
     //draw the average output chart
     function drawDayAvgOutputChart() {
       var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
-      query.setQuery('select C, (sum(U) / sum(F)) group by C');
+      //query.setQuery('select C, (sum(U) / sum(F)) group by C');
+      query.setQuery('select C, sum(U) group by C');
       query.send(handleQueryResponseDayAvgOutputChart);
     }
 
