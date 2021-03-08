@@ -8,9 +8,31 @@
       google.charts.load('current', {'packages':['corechart']});
 
       // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawDayAvgOutputChartByInstructor);
       google.charts.setOnLoadCallback(drawDayAvgOutputChart);
       google.charts.setOnLoadCallback(drawDurationChart);
       google.charts.setOnLoadCallback(drawOutputChart);
+
+      //draw the average output chart by instructor
+      function drawDayAvgOutputChartByInstructor() {
+        var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
+        query.setQuery('select C, (sum(U) / sum(F) * 1000) group by C pivot I');
+        query.send(handleQueryResponseDayAvgOutputChartByInstructor);
+      }
+
+      function handleQueryResponseDayAvgOutputChartByInstructor(response) {
+        if (response.isError()) {
+          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+          return;
+        }
+
+        var data = response.getDataTable();
+        var options = {title:'Average output by day by instructor', width:600, height:400, trendlines: {0: {}, 1: {},2: {},3: {},4: {},5: {},6: {},7: {}}};
+        var chart = new google.visualization.LineChart(document.getElementById('Day_Avg_Output_By_Instructor_chart_div'));
+        chart.draw(data, options);
+      }
+
+
 
       //draw the average output chart
       function drawDayAvgOutputChart() {
@@ -75,6 +97,9 @@
   <body>
     <!--Table and divs that hold the pie charts -->
    <table class="rows">
+      <tr>
+        <td><div id="Day_Avg_Output_By_Instructor_chart_div" style="border: 1px solid #ccc"></div></td>
+      </tr>
       <tr>
         <td><div id="Day_Avg_Output_chart_div" style="border: 1px solid #ccc"></div></td>
       </tr>
