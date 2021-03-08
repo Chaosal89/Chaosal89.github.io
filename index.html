@@ -62,7 +62,7 @@
         }
 
         var data = response.getDataTable();
-        var options = {title:'Average output by day'};
+        var options = {title:'Average output by day', trendlines: {0: {}}};
         var chart = new google.visualization.LineChart(document.getElementById('Day_Avg_Output_chart_div'));
         chart.draw(data, options);
       }
