@@ -30,7 +30,7 @@
       //draw the average output chart by instructor
       function drawDayAvgOutputChartByInstructor() {
         var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
-        query.setQuery('select C, (sum(U) / sum(F) * 1000) group by C pivot I');
+        query.setQuery('select C, (sum(U) / sum(F) * 1000) group by C pivot I label (sum(U) / sum(F) * 1000) ""');
         query.send(handleQueryResponseDayAvgOutputChartByInstructor);
       }
 
@@ -41,7 +41,7 @@
         }
 
         var data = response.getDataTable();
-        var options = {title:'Average output by day by instructor', width:600, height:400, trendlines: {0: {}, 1: {},2: {},3: {},4: {},5: {},6: {},7: {}}};
+        var options = {title:'Average output by day by instructor', trendlines: {0: {}, 1: {},2: {},3: {},4: {},5: {},6: {},7: {}}};
         var chart = new google.visualization.LineChart(document.getElementById('Day_Avg_Output_By_Instructor_chart_div'));
         chart.draw(data, options);
       }
@@ -51,7 +51,7 @@
       //draw the average output chart
       function drawDayAvgOutputChart() {
         var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
-        query.setQuery('select C, (sum(U) / sum(F) * 1000) group by C');
+        query.setQuery('select C, (sum(U) / sum(F) * 1000) group by C label (sum(U) / sum(F) * 1000) "Daily avg output"');
         query.send(handleQueryResponseDayAvgOutputChart);
       }
 
@@ -62,7 +62,7 @@
         }
 
         var data = response.getDataTable();
-        var options = {title:'Average output by day', width:600, height:400};
+        var options = {title:'Average output by day'};
         var chart = new google.visualization.LineChart(document.getElementById('Day_Avg_Output_chart_div'));
         chart.draw(data, options);
       }
@@ -70,7 +70,7 @@
       //draw the duration chart
       function drawDurationChart() {
         var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
-        query.setQuery('select C, sum(F) group by C');
+        query.setQuery('select C, sum(F) group by C label sum(F) "Total Duration"');
         query.send(handleQueryResponseDurationChart);
       }
 
@@ -81,7 +81,7 @@
         }
 
         var data = response.getDataTable();
-        var options = {title:'Duration by day', width:600, height:400};
+        var options = {title:'Duration by day'};
         var chart = new google.visualization.LineChart(document.getElementById('Duration_chart_div'));
         chart.draw(data, options);
       }
@@ -89,7 +89,7 @@
       //draw the average output chart
       function drawOutputChart() {
         var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
-        query.setQuery('select C, sum(U) group by C');
+        query.setQuery('select C, sum(U) group by C label sum(U) "Total output (kj)"');
         query.send(handleQueryResponseOutputChart);
       }
 
@@ -100,7 +100,7 @@
         }
 
         var data = response.getDataTable();
-        var options = {title:'Total output by day', width:600, height:400};
+        var options = {title:'Total output by day'};
         var chart = new google.visualization.LineChart(document.getElementById('Output_chart_div'));
         chart.draw(data, options);
     }
@@ -120,6 +120,12 @@
     </div>
     <div class="col-md-6">
       <div id="Day_Avg_Output_chart_div" class="chart"></div>
+    </div>
+    <div class="col-md-6">
+      <div id="Duration_chart_div" class="chart"></div>
+    </div>
+    <div class="col-md-6">
+      <div id="Output_chart_div" class="chart"></div>
     </div>
   </div>
   </body>
