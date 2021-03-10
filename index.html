@@ -70,7 +70,7 @@
       //draw the duration chart
       function drawDurationChart() {
         var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
-        query.setQuery('select C, sum(F) group by C label sum(F) "Total Duration"');
+        query.setQuery('select C, (sum(F) /60) group by C label (sum(F) /60) "Total Duration"');
         query.send(handleQueryResponseDurationChart);
       }
 
