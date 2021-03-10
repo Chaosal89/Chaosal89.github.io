@@ -22,10 +22,49 @@
       google.charts.load('current', {'packages':['corechart']});
 
       // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawDayAvgOutputChartByInstructor);
       google.charts.setOnLoadCallback(drawDayAvgOutputChart);
+      google.charts.setOnLoadCallback(drawDayAvgOutputChartByInstructor);
+      google.charts.setOnLoadCallback(drawDayAvgOutputBubbleChartByInstructor);
       google.charts.setOnLoadCallback(drawDurationChart);
       google.charts.setOnLoadCallback(drawOutputChart);
+      
+      //draw the average output chart
+      function drawDayAvgOutputChart() {
+        var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
+        query.setQuery('select C, (sum(U) / sum(F) * 1000) group by C label (sum(U) / sum(F) * 1000) "Daily avg output"');
+        query.send(handleQueryResponseDayAvgOutputChart);
+      }
+
+      function handleQueryResponseDayAvgOutputChart(response) {
+        if (response.isError()) {
+          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+          return;
+        }
+
+        var data = response.getDataTable();
+        var options = {title:'Average output by day', trendlines: {0: {}}};
+        var chart = new google.visualization.LineChart(document.getElementById('Day_Avg_Output_chart_div'));
+        chart.draw(data, options);
+      }
+      
+      //draw the average output bubble chart by instructor
+      function drawDayAvgOutputBubbleChartByInstructor() {
+        var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
+        query.setQuery('select I, count(A), (sum(U) / sum(F) * 1000), count(I) group by I label count(A) "# Workouts", (sum(U) / sum(F) * 1000) "Average output", count(I) ""');
+        query.send(handleQueryResponseDayAvgOutputBubbleChartByInstructor);
+      }
+
+      function handleQueryResponseDayAvgOutputBubbleChartByInstructor(response) {
+        if (response.isError()) {
+          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+          return;
+        }
+
+        var data = response.getDataTable();
+        var options = {title:'Average output by instructor'};
+        var chart = new google.visualization.BubbleChart(document.getElementById('Day_Avg_Output_By_Instructor_bubble_chart_div'));
+        chart.draw(data, options);
+      }
 
       //draw the average output chart by instructor
       function drawDayAvgOutputChartByInstructor() {
@@ -43,27 +82,6 @@
         var data = response.getDataTable();
         var options = {title:'Average output by day by instructor', trendlines: {0: {}, 1: {},2: {},3: {},4: {},5: {},6: {},7: {}}};
         var chart = new google.visualization.LineChart(document.getElementById('Day_Avg_Output_By_Instructor_chart_div'));
-        chart.draw(data, options);
-      }
-
-
-
-      //draw the average output chart
-      function drawDayAvgOutputChart() {
-        var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_HVJ4aQahvd88-YWY8xmNN6n_AhfpzgiJ4FTzdBY6Yo/edit#gid=0');
-        query.setQuery('select C, (sum(U) / sum(F) * 1000) group by C label (sum(U) / sum(F) * 1000) "Daily avg output"');
-        query.send(handleQueryResponseDayAvgOutputChart);
-      }
-
-      function handleQueryResponseDayAvgOutputChart(response) {
-        if (response.isError()) {
-          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-          return;
-        }
-
-        var data = response.getDataTable();
-        var options = {title:'Average output by day', trendlines: {0: {}}};
-        var chart = new google.visualization.LineChart(document.getElementById('Day_Avg_Output_chart_div'));
         chart.draw(data, options);
       }
 
@@ -106,8 +124,9 @@
     }
 
     $(window).resize(function(){
-    drawDayAvgOutputChartByInstructor();
     drawDayAvgOutputChart();
+    drawDayAvgOutputChartByInstructor();
+    drawDayAvgOutputBubbleChartByInstructor();
     drawDurationChart();
     drawOutputChart();
     });
@@ -118,10 +137,13 @@
   <body>
   <div class="row">
     <div class="col-md-6">
-      <div id="Day_Avg_Output_By_Instructor_chart_div" class="chart"></div>
+      <div id="Day_Avg_Output_chart_div" class="chart"></div>
     </div>
     <div class="col-md-6">
-      <div id="Day_Avg_Output_chart_div" class="chart"></div>
+      <div id="Day_Avg_Output_By_Instructor_bubble_chart_div" class="chart"></div>
+    </div>
+    <div class="col-md-6">
+      <div id="Day_Avg_Output_By_Instructor_chart_div" class="chart"></div>
     </div>
     <div class="col-md-6">
       <div id="Duration_chart_div" class="chart"></div>
